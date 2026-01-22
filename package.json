@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/praveendigitalks/praveensrivastav-backend/issues"
   },
-  "type" : "module",  
+  "type": "module",
   "homepage": "https://github.com/praveendigitalks/praveensrivastav-backend#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",

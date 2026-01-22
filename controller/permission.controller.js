@@ -17,36 +17,35 @@ export const createPermissionController = async (req, res) => {
   }
 };
 
-
 export const getPermissionController = async (req, res) => {
   try {
     const permissions = await getPermission();
-    res.status(200).json(permissions);
+    return res.status(200).json(permissions);
   } catch (error) {
-    res.staus(500).json({ error: message.error });
+    return res.staus(500).json({ error: message.error });
   }
 };
 export const getPermissionbyIdController = async (req, res) => {
   try {
     const permissions = await getPermissionByid(req.params.id);
-    res.status(200).json(permissions);
+    return res.status(200).json(permissions);
   } catch (error) {
-    res.staus(500).json({ error: message.error });
+    return res.staus(500).json({ error: message.error });
   }
 };
 export const updatePermissionController = async (req, res) => {
   try {
     const permissions = await updatePermission(req.params.id, req.body);
-    res.status(200).json(permissions);
+    return res.status(200).json(permissions);
   } catch (error) {
-    res.staus(500).json({ error: message.error });
+    return res.staus(500).json({ error: message.error });
   }
 };
 export const deletePermissionController = async (req, res) => {
   try {
     const permissions = await deletePermission(req.params.id);
-    res.status(200).json(permissions);
+    return res.status(200).json(permissions);
   } catch (error) {
-    res.staus(500).json({ error: message.error });
+    return res.staus(500).json({ error: message.error });
   }
 };

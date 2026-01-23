@@ -39,7 +39,7 @@ export const updateAboutController = async (req, res) => {
     return res.status(200).json(abouts);
   } catch (error) {
     console.log("🚀 ~ updateAboutController ~ error:", error);
-    return res.status(500).json({error : error.message});
+    return res.status(500).json({error : error.message}); 
   }
 };
 export const deleteAboutController = async (req, res) => {

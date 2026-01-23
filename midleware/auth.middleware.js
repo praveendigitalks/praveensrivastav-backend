@@ -1,17 +1,13 @@
-
 import jwt from "jsonwebtoken";
-export const protect = (req, res, next) =>{
+export const protect = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
 
-    const  token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Now JWT Token Found" });
+  }
 
-    if(!token){
-     
-        return res.status(401).json({message : "Now JWT Token Found"})
-    }
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = decoded;
 
-     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-     req.user = decoded;
-
-     next();
-
-}
+  next();
+};

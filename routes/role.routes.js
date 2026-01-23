@@ -4,7 +4,7 @@ import { createRoleController, getRoleController } from "../controller/role.cont
 import { protect } from "../midleware/auth.middleware.js";
 
 
-// router.use(protect)
+router.use(protect)
 
 router.post("/", createRoleController);
 

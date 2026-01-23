@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const aboutSchema = new mongoose.Schema ({
+const aboutSchema = new mongoose.Schema({
 
     position : {
         type : String,
@@ -31,4 +31,4 @@ const aboutSchema = new mongoose.Schema ({
     },
 });
 
-export default mongoose.Schema("About", aboutSchema)
+export default mongoose.model("About", aboutSchema)

@@ -3,7 +3,7 @@ const router = express.Router();
 import {createPermissionController, getPermissionController,getPermissionbyIdController,updatePermissionController, deletePermissionController} from "./../controller/permission.controller.js";
 import {protect} from "./../midleware/auth.middleware.js"
 
-// router.use(protect)
+router.use(protect)
 
 router.post("/", createPermissionController);
 

@@ -29,6 +29,14 @@ const aboutSchema = new mongoose.Schema({
         type : String,
         require : true
     },
+    degree : {
+        type : String,
+        require : true
+    },
+    email : {
+        type : String,
+        require : true
+    },
 });
 
 export default mongoose.model("About", aboutSchema)

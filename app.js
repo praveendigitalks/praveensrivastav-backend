@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-
+import path from "path";
 import connectDB from "./connection/connect.js";
 import index from "./routes/index.routes.js";
 
@@ -19,6 +19,9 @@ const allowedOrigins = [
   "https://praveensrivastav.vercel.app"
 ];
 
+app.use("/upload", express.static("upload"));
+app.use("/upload", express.static(path.join(process.cwd(), "upload")));
+
 app.use(
   cors({
     // origin: (origin, callback) => {
@@ -31,7 +34,7 @@ app.use(
     origin:"*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-device-id"],
   })
 );
 

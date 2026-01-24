@@ -37,6 +37,9 @@ const aboutSchema = new mongoose.Schema({
         type : String,
         require : true
     },
+    image : {
+        type : String
+    }
 });
 
 export default mongoose.model("About", aboutSchema)

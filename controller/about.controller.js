@@ -5,16 +5,22 @@ import {
   updateAbout,
   deleteAbout,
 } from "../services/about.services.js";
-
 export const createAboutController = async (req, res) => {
   try {
-    const abouts =await createAbout(req.body);
-    console.log("🚀 ~ createAboutController ~ abouts:", abouts)
+    const data = {
+      ...req.body,
+      image: req.file
+        ? `/upload/about/${req.file.filename}`
+        : null,
+    };
+
+    const abouts = await createAbout(data);
     return res.status(201).json(abouts);
   } catch (error) {
-    return res.status(500).json({error : error.message});
+    return res.status(500).json({ error: error.message });
   }
 };
+
 export const getAboutController = async (req, res) => {
   try {
     const abouts = await getAbout();

@@ -11,33 +11,43 @@
 
 //   next();
 // };
-
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
 export const protect = async (req, res, next) => {
   try {
-    console.log("i am in middleware")
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer")) {
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
 
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // ✅ MUST query USER model
     const user = await User.findById(decoded.id);
+
     if (!user) {
-      console.log("🚀 ~ protect ~ !user:", !user)
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({ message: "Session expired" });
     }
 
-    // ⛔ DO NOT block logout if device token missing
-    req.user = decoded;
+    // 🔐 Device validation (IMPORTANT)
+    const deviceId = req.headers["x-device-id"];
+    const validDevice = user.devices.find(
+      (d) => d.deviceId === deviceId && d.token === token,
+    );
+
+    if (!validDevice) {
+      return res.status(401).json({ message: "Device logged out" });
+    }
+
+    req.user = user;
+    req.deviceId = deviceId;
     req.token = token;
+
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Session expired" });
   }
 };
-

@@ -26,3 +26,10 @@ export const updateUser = async (id, data) => {
 export const deleteUser = async (id) => {
   return User.findByIdAndDelete(id);
 };
+
+
+// logged  user devices
+
+export const getLoggeduserdevcies = async(id) =>{
+  return await User.findById(id).select("devices userName");
+}

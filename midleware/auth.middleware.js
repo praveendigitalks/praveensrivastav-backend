@@ -17,8 +17,8 @@ import User from "../models/user.model.js";
 
 export const protect = async (req, res, next) => {
   try {
+    console.log("i am in middleware")
     const authHeader = req.headers.authorization;
-
     if (!authHeader || !authHeader.startsWith("Bearer")) {
       return res.status(401).json({ message: "No token provided" });
     }
@@ -26,24 +26,15 @@ export const protect = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findById(decoded._id);
-
+    const user = await User.findById(decoded.id);
     if (!user) {
+      console.log("🚀 ~ protect ~ !user:", !user)
       return res.status(401).json({ message: "User not found" });
     }
 
-    // 🔐 device-token validation
-    const validDevice = user.devices.find(
-      (d) => d.token === token
-    );
-
-    if (!validDevice) {
-      return res.status(401).json({
-        message: "Session expired or logged out from this device",
-      });
-    }
-
+    // ⛔ DO NOT block logout if device token missing
     req.user = decoded;
+    req.token = token;
     next();
   } catch (err) {
     return res.status(401).json({ message: "Unauthorized" });

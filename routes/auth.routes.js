@@ -6,7 +6,7 @@
 
 
         router.post("/", LoginUser);
-        router.post("/logout", LogoutUser);
+        router.post("/logout", protect, LogoutUser);
 
 
 

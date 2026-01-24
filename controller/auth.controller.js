@@ -22,14 +22,16 @@ export const LoginUser = async (req, res) => {
 
 export const LogoutUser = async (req, res) => {
   try {
-    const { deviceId } = req.body;
+    console.log("i am in controller came out of the protect now")
+    const { userId,deviceId } = req.body;
+    console.log("🚀 ~ LogoutUser ~ req.body:", req.body)
 
     if (!deviceId) {
       return res.status(400).json({ message: "DeviceId required" });
     }
 
     await Logout({
-      userId: req.user.id,
+      userId,   // ✅ FIX
       deviceId,
     });
 
@@ -40,5 +42,6 @@ export const LogoutUser = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
 
 

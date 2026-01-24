@@ -5,6 +5,7 @@ import {
   getUserbyId,
   updateUser,
   deleteUser,
+  getLoggeduserdevcies,
 } from "../services/user.services.js";
 
 export const CreateUserController = async (req, res) => {
@@ -40,11 +41,22 @@ export const updateUserController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};export const deleteUserController = async (req, res) => {
+};
+export const deleteUserController = async (req, res) => {
   try {
     const users = await deleteUser(req.params.id);
     return res.status(200).json(users);
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+export const getLoggedUserDevicesController = async (req, res) => {
+  try {
+    const userdevices = await getLoggeduserdevcies(req.params.id);
+    return res.status(200).json(userdevices);
+  } catch (error) {
+    // console.log("🚀 ~ getLoggedUserDevicesController ~ error:", error)
+    return res.status(400).json({ error: error.message });
   }
 };

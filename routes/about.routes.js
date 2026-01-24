@@ -6,12 +6,12 @@ import {checkPermission} from './../midleware/permission.middleware.js';
 import { MODULES } from "../constants/module.js";
 import { ACTIONS } from "../constants/permission.js";
 import { uploadAboutImage } from "../midleware/upload.middleware.js";
-router.use(protect);
+// router.use(protect);
 
 
 router.get("/", getAboutController);
 router.get("/:id", getAboutControllerbyId);
-router.post("/",checkPermission(MODULES.ABOUT,ACTIONS.CREATE),uploadAboutImage.single("image"), createAboutController);
+router.post("/",checkPermission(MODULES.ABOUT,ACTIONS.CREATE),uploadAboutImage.single("image"), protect,createAboutController);
 router.put("/:id", updateAboutController);
 router.delete("/:id", deleteAboutController);
 

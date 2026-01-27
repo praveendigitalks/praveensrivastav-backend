@@ -41,7 +41,7 @@ export const getAboutControllerbyId = async (req, res) => {
 };
 export const updateAboutController = async (req, res) => {
   try {
-    const abouts =await createAbout(req.params.id, req.body);
+    const abouts =await updateAbout(req.params.id, req.body);
     return res.status(200).json(abouts);
   } catch (error) {
     console.log("🚀 ~ updateAboutController ~ error:", error);

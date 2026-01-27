@@ -30,7 +30,7 @@ import User from "./../models/user.model.js"
 export const checkPermission = (module, action) => {
   return async (req, res, next) => {
 
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user._id)
       .populate({
         path: "role",
         populate: { path: "permission" }

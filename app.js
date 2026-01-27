@@ -4,8 +4,7 @@ import cors from "cors";
 import path from "path";
 import connectDB from "./connection/connect.js";
 import index from "./routes/index.routes.js";
-import { createSuperAdmin } from "./seed/superAdmin.seed.js";
-
+import {createSuperAdmin} from "./seed/superAdmin.seed.js"
 dotenv.config();
 
 const app = express();

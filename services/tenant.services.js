@@ -1,8 +1,17 @@
 
 import Tenant from "./../models/tenant.model.js"
-export const CreateTenant = async (data) =>{
-    return await Tenant.create(data);
-}
+export const CreateTenant = async (data) => {
+  return await Tenant.create({
+    tenantName: data.tenantName,
+    tenantPhoneNo: data.tenantPhoneNo,
+    subscription: {
+      status: "TRIAL",
+      expiresAt: null,
+    },
+    isActive: true,
+  });
+};
+
 export const GetTenant = async () =>{
     return await Tenant.find();
 }

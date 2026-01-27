@@ -1,4 +1,10 @@
 export const MODULES = {
+  //  authentication Modules
+  USER: "USER",
+  ROLE: "ROLE",
+  PERMISSION: "PERMISSION",
+  TENANT: "TENANT",
+
   ABOUT: "ABOUT",
   RRESUME: "RESUME",
   PORTFOLIO: "PORTFOLIO",

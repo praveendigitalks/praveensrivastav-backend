@@ -10,13 +10,17 @@ export const activateTenant = async (req, res) => {
     "subscription.expiresAt": new Date(Date.now() + 30*24*60*60*1000)
   });
 
+  res.json({ message: "Subscription activated" });
 };
-export const deactivateTenant = async (req, res) => {
+
+export const cancelTenant = async (req, res) => {
   const { tenantId } = req.params;
 
   await Tenant.findByIdAndUpdate(tenantId, {
     "subscription.status": "CANCELLED",
-    isActive: true,
-    "subscription.expiresAt": new Date(Date.now() + 30*24*60*60*1000)
+    isActive: false
   });
+
+  res.json({ message: "Tenant cancelled" });
 };
+

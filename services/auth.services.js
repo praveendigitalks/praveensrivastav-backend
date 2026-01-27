@@ -146,7 +146,7 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
       tenantId: user.tenantId,
       role: user.role
     },
-    devices: user.devices,
+    devices: user.isSuperAdmin ? [] : user.devices
   };
 };
 

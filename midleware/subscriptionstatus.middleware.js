@@ -12,7 +12,7 @@ export const checktenantStatus = async (req, res, next) => {
     return res.status(403).json({ message: "Tenant is Disabled" });
   }
 
-  if (tenant.Subscription.status != "ACTIVE") {
+  if (tenant.subscription.status != "ACTIVE") {
     return res
       .status(402)
       .json({ message: "Subscription is Expired, Please Renew" });

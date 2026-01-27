@@ -14,14 +14,7 @@ export const CreateTenantController = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-export const CreateTenantController = async (req, res) => {
-  try {
-    const tenants = await CreateTenant(req.body);
-    return res.status(201).json(tenants);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
+
 export const GetTenantController = async (req, res) => {
   try {
     const tenants = await GetTenant();
@@ -32,15 +25,25 @@ export const GetTenantController = async (req, res) => {
 };
 export const GetTenantByIdController = async (req, res) => {
   try {
-    const tenants = await CreateTenant(req.parmas.id);
+    const tenants = await GetTenantById(req.parmas.id);
     return res.status(200).json(tenants);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
-export const CreateTenantController = async (req, res) => {
+export const UpdateTenantController = async (req, res) => {
   try {
-    const tenants = await CreateTenant(req.body);
+    const tenants = await UpdateTenant(req.params.id,req.body);
+    return res.status(201).json(tenants);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+export const DeleteTenantController = async (req, res) => {
+  try {
+    const tenants = await DeleteTenant(req.params.id);
     return res.status(201).json(tenants);
   } catch (error) {
     return res.status(500).json({ error: error.message });

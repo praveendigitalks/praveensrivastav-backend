@@ -1,34 +1,32 @@
 import mongoose from "mongoose";
 
-const tenantScehma = new mongoose.Schema(
+const tenantSchema = new mongoose.Schema(
   {
     tenantName: {
       type: String,
-    },
-    tenantAge: {
-      type: String,
-    },
-    tenantDob: {
-      type: String,
-    },
-    tenantPhoneno: {
-      type: String,
+      required: true,
     },
 
-    Subscription: {
+    tenantPhoneNo: String,
+
+    subscription: {
       status: {
         type: String,
-        enum: ["TRIAL", "ACTIVE", "Expired", "CANCELLED"],
+        enum: ["TRIAL", "ACTIVE", "EXPIRED", "CANCELLED"],
+        default: "TRIAL",
       },
-
-      expiresAt: Date,
-    },
+      expiresAt: {
+        type: Date,
+        required: true,
+      },
+    },  
     isActive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
+
   },
   { timestamps: true },
 );
 
-export default mongoose.model("Tenant", tenantScehma);
+export default mongoose.model("Tenant", tenantSchema);

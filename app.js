@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
-import connectDB from "./connection/connect.js";
-import index from "./routes/index.routes.js";
-import { createSuperAdmin } from "./seed/superAdmin.seed.js";
+import connectDB from "./src/connection/connect.js";
+import index from "./src/routes/index.routes.js";
+import { createSuperAdmin } from "./src/seed/superAdmin.seed.js";
 
 dotenv.config();
 
@@ -12,7 +12,6 @@ const app = express();
 
 /* ---------- BODY PARSER ---------- */
 app.use(express.json());
-
 /* ---------- CORS ---------- */
 // Replace your cors() block with this
 const allowedOrigins = [

@@ -1,29 +1,29 @@
-  // import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-  // const userschema = new mongoose.Schema({
-  //   userName: {
-  //     type: String,
-  //     require: true,
-  //   },
-  //   age: {
-  //     type: Number,
-  //     require: true,
-  //   },
-  //   contact_no: {
-  //     type: Number,
-  //     require: true,
-  //   },
-  //   password: {
-  //     type: String,
-  //     require: true,
-  //   },
-  //   role: {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Role",
-  //   },
-  // });
+// const userschema = new mongoose.Schema({
+//   userName: {
+//     type: String,
+//     require: true,
+//   },
+//   age: {
+//     type: Number,
+//     require: true,
+//   },
+//   contact_no: {
+//     type: Number,
+//     require: true,
+//   },
+//   password: {
+//     type: String,
+//     require: true,
+//   },
+//   role: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Role",
+//   },
+// });
 
-  // export default mongoose.model("User", userschema);
+// export default mongoose.model("User", userschema);
 import mongoose from "mongoose";
 
 const deviceSchema = new mongoose.Schema({
@@ -38,6 +38,15 @@ const deviceSchema = new mongoose.Schema({
 });
 
 const userschema = new mongoose.Schema({
+  tenantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Tenant",
+  },
+
+  isSuperAdmin: {
+    type: Boolean,
+    default: false,
+  },
   userName: { type: String, required: true },
   age: Number,
   contact_no: Number,
@@ -53,4 +62,3 @@ const userschema = new mongoose.Schema({
 });
 
 export default mongoose.model("User", userschema);
-

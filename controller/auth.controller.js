@@ -20,18 +20,41 @@ export const LoginUser = async (req, res) => {
   }
 };
 
+// export const LogoutUser = async (req, res) => {
+//   try {
+//     console.log("i am in controller came out of the protect now")
+//     const { userId,deviceId } = req.body;
+//     console.log("🚀 ~ LogoutUser ~ req.body:", req.body)
+
+//     if (!deviceId) {
+//       return res.status(400).json({ message: "DeviceId required" });
+//     }
+
+//     await Logout({
+//       userId,   // ✅ FIX
+//       deviceId,
+//     });
+
+//     return res.status(200).json({
+//       message: "Logged out from this device",
+//     });
+//   } catch (error) {
+//     return res.status(400).json({ message: error.message });
+//   }
+// };
+
+
+
 export const LogoutUser = async (req, res) => {
   try {
-    console.log("i am in controller came out of the protect now")
-    const { userId,deviceId } = req.body;
-    console.log("🚀 ~ LogoutUser ~ req.body:", req.body)
+    const deviceId = req.body.deviceId;
 
     if (!deviceId) {
       return res.status(400).json({ message: "DeviceId required" });
     }
 
     await Logout({
-      userId,   // ✅ FIX
+      userId: req.user._id,   // 🔐 from protect middleware
       deviceId,
     });
 
@@ -42,6 +65,3 @@ export const LogoutUser = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
-
-
-

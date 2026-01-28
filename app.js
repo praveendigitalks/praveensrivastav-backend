@@ -11,7 +11,6 @@ const app = express();
 
 /* ---------- BODY PARSER ---------- */
 app.use(express.json());
-
 /* ---------- CORS ---------- */
 app.use(
   cors({

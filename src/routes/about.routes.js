@@ -11,7 +11,7 @@ import { uploadAboutImage } from "../midleware/upload.middleware.js";
 
 router.get("/", getAboutController);
 router.get("/:id", getAboutControllerbyId);
-router.post("/",checkPermission(MODULES.ABOUT,ACTIONS.CREATE),uploadAboutImage.single("image"), protect,createAboutController);
+router.post("/",uploadAboutImage.single("image"),createAboutController);
 router.put("/:id", updateAboutController);
 router.delete("/:id", deleteAboutController);
 

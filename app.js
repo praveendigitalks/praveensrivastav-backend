@@ -13,6 +13,14 @@ const app = express();
 app.use(express.json());
 
 /* ---------- CORS ---------- */
+app.use(
+  cors({
+    origin:"*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-device-id"],
+  })
+);
 // Replace your cors() block with this
 const allowedOrigins = [
   "http://localhost:4200",
@@ -21,24 +29,6 @@ const allowedOrigins = [
 
 app.use("/upload", express.static("upload"));
 app.use("/upload", express.static(path.join(process.cwd(), "upload")));
-
-app.use(
-  cors({
-    // origin: (origin, callback) => {
-    //   if (!origin || allowedOrigins.includes(origin)) {
-    //     callback(null, true);
-    //   } else {
-    //     callback(new Error("Not allowed by CORS"));
-    //   }
-    // },
-    origin:"*",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "x-device-id"],
-  })
-);
-
-/* ---------- PREFLIGHT (WORKS IN EXPRESS 4) ---------- */
 
 
 /* ---------- DB ---------- */

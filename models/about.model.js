@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const skillSchema = new mongoose.Schema({
   technology: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
   proficiency: {
     type: Number,
-    required: true,
+    // required: true,
     min: 0,
     max: 100
   }
@@ -52,7 +52,11 @@ const aboutSchema = new mongoose.Schema({
   webskills: {
     type: [skillSchema],
     default: []
-  }
+  },
+  tenantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Tenant",
+  },
 });
 
 export default mongoose.model("About", aboutSchema);

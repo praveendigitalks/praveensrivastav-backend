@@ -25,7 +25,7 @@ export const GetTenantController = async (req, res) => {
 };
 export const GetTenantByIdController = async (req, res) => {
   try {
-    const tenants = await GetTenantById(req.parmas.id);
+    const tenants = await GetTenantById(req.params.id);
     return res.status(200).json(tenants);
   } catch (error) {
     return res.status(500).json({ error: error.message });

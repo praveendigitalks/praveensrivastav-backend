@@ -14,7 +14,7 @@ export const createSuperAdmin = async () => {
   await User.create({
     userName: "superadmin",
     password: hashedPassword,   
-    isSuperAdmin: true,
+    isSuperAdmin: true, 
     tenantId: null,
   });
   

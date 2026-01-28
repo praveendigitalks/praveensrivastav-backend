@@ -59,10 +59,10 @@ const userschema = new mongoose.Schema({
     type: [deviceSchema],
     default: [],
   },
-
-  email : {
-    type : String,
-  }
+  email: {
+    type: String,
+    unique: true,
+  },
 });
 
 export default mongoose.model("User", userschema);

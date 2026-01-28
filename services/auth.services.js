@@ -24,7 +24,7 @@ import { comparePassword } from "./../utils/password.js";
 import { generateJsonWebToken } from "./../utils/jwt.js";
 import Tenant from "./../models/tenant.model.js";
 
-// old architectrure without SaaS based 
+// old architectrure without SaaS based
 
 // export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
 
@@ -50,7 +50,7 @@ import Tenant from "./../models/tenant.model.js";
 //   if (!existingDevice) {
 //     if (user.devices.length >= 3) {
 //       throw new Error("Maximum 3 devices allowed");
-//     } 
+//     }
 
 //     user.devices.push({
 //       deviceId,
@@ -76,15 +76,16 @@ import Tenant from "./../models/tenant.model.js";
 //   };
 // };
 
-
-// new architectrure without SaaS based 
+// new architectrure without SaaS based
 
 export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
+ const user = await User.findOne({ userName }).populate({
+  path: "role",
+  populate: {
+    path: "permissions",
+  },
+});
 
-  const user = await User.findOne({ userName }).populate({
-    path: "role",
-    populate: "permission",
-  });
 
   if (!user) throw new Error("User not found");
 
@@ -98,20 +99,23 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
     }
 
     const tenant = await Tenant.findById(user.tenantId);
+    console.log("🚀 ~ Login ~ tenant:", tenant);
 
     if (!tenant || !tenant.isActive) {
       throw new Error("Tenant is disabled");
     }
+    console.log("tenant status", tenant.subscription.status);
 
-    if (tenant.Subscription.status !== "ACTIVE") {
+    if (
+      // tenant.subscription?.status !== "ACTIVE" ||
+      tenant.subscription?.status !== "TRIAL"
+    ) {
       throw new Error("Subscription inactive");
     }
   }
 
   /* ---------------- DEVICE MANAGEMENT ---------------- */
-  const existingDevice = user.devices.find(
-    d => d.deviceId === deviceId
-  );
+  const existingDevice = user.devices.find((d) => d.deviceId === deviceId);
 
   const token = generateJsonWebToken(user);
 
@@ -136,6 +140,9 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
   }
 
   await user.save();
+  console.log("LOGIN USER ID:", user._id);
+  console.log("LOGIN USERNAME:", user.userName);
+  console.log("LOGIN ISSUPERADMIN:", user.isSuperAdmin);
 
   return {
     token,
@@ -144,9 +151,9 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
       userName: user.userName,
       isSuperAdmin: user.isSuperAdmin,
       tenantId: user.tenantId,
-      role: user.role
+      role: user.role,
     },
-    devices: user.isSuperAdmin ? [] : user.devices
+    devices: user.isSuperAdmin ? [] : user.devices,
   };
 };
 
@@ -168,17 +175,13 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
 //   await user.save();
 // };
 
-
 export const Logout = async ({ userId, deviceId }) => {
-
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
 
   const before = user.devices.length;
 
-  user.devices = user.devices.filter(
-    d => d.deviceId !== deviceId
-  );
+  user.devices = user.devices.filter((d) => d.deviceId !== deviceId);
 
   if (before === user.devices.length) {
     throw new Error("Device already logged out");

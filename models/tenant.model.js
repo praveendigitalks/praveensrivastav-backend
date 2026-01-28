@@ -16,7 +16,7 @@ const tenantSchema = new mongoose.Schema(
         default: "TRIAL",
       },
       expiresAt: {
-        type: Date,
+        type: Date, 
         required: true,
       },
     },  

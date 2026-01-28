@@ -1,30 +1,31 @@
 import { hasPassword } from "../utils/password.js";
 import User from "../models/user.model.js";
-
+import { generatePassword, generateUsername } from "../utils/autogeneratepassword.js";
+import bcrypt from "bcryptjs";
 export const createUser = async (data) => {
   data.password = await hasPassword(data.password);
   return User.create(data);
 };
 
-export const getUser = async () => {
-  return User.find()
-    .populate("role")
+export const getUser = async (tenantId) => {  // Expects STRING
+  return User.find({ tenantId: tenantId })  // ✅ { tenantId: "6979..." }
     .populate({
       path: "role",
-      populate: { path: "permission" },
+      populate: { path: "permissions" },
     });
 };
 
-export const getUserbyId = async (id) => {
-  return User.findById(id).populate("role role.permission");
+
+export const getUserbyId = async (tenantId,id) => {
+  return User.findById({ id, tenantId}).populate("role role.permission");
 };
 
-export const updateUser = async (id, data) => {
-  return User.findByIdAndUpdate(id, data);
+export const updateUser = async (tenantId,id, data) => {
+  return User.findByIdAndUpdate({ id, tenantId}, data, { new: true});
 };
 
-export const deleteUser = async (id) => {
-  return User.findByIdAndDelete(id);
+export const deleteUser = async (tenantId,id) => {
+  return User.findByIdAndDelete({ id, tenantId});
 };
 
 
@@ -33,3 +34,27 @@ export const deleteUser = async (id) => {
 export const getLoggeduserdevcies = async(id) =>{
   return await User.findById(id).select("devices userName");
 }
+
+
+
+// auto generation tenent user for traial period
+export const createTenantAdminUser = async ({
+  tenantId,
+  roleId,
+  email,
+  tenantName
+}) => {
+  const plainPassword = generatePassword();
+  const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+  const user = await User.create({
+    tenantId,
+    userName: generateUsername(tenantName),
+    email,
+    password: hashedPassword,
+    role: roleId,
+    isSuperAdmin: false,
+  });
+
+  return { user, plainPassword };
+};

@@ -10,8 +10,8 @@ export const createTenantAdminRole = async (tenantId) => {
 
   const role = await Role.create({
     roleName: "TENANT_ADMIN",
-    permission: permissions.map(p => p._id),
-    tenantId
+    tenantId,
+    permissions: permissions.map(p => p._id),
   });
 
   return role;

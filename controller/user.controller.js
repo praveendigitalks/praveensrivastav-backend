@@ -12,7 +12,7 @@ export const CreateUserController = async (req, res) => {
   try {
     const users = await createUser(req.body);
     return res.status(201).json(users);
-  } catch (error) {
+  } catch (error) { 
     return res.status(500).json({ error: error.message });
   }
 };
@@ -20,7 +20,7 @@ export const CreateUserController = async (req, res) => {
 export const GetUserController = async (req, res) => {
   try {
     const tenantId = req.user.tenantId;
-    console.log("🚀 ~ GetUserController ~ tenantId:", tenantId)
+    // console.log("🚀 ~ GetUserController ~ tenantId:", tenantId)
     const users = await getUser(tenantId);
     return res.status(200).json(users);
   } catch (error) {

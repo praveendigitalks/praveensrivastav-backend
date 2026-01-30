@@ -18,30 +18,37 @@ export const CreateTenantController = async (req, res) => {
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
       isActive: true,
-    });   
+    });
+    console.log("🚀 ~ CreateTenantController ~ tenant:", tenant)
+
+    if(!tenant){
+      console.log("tennant not found");
+    }
 
     // 2. Create Role + Permissions
-    const role = await createTenantAdminRole(tenant._id);
+    if (tenant) {
+      const role = await createTenantAdminRole(tenant._id);
 
-    // 3. Create Admin User
-    const { user, plainPassword } = await createTenantAdminUser({
-      tenantId: tenant._id,
-      roleId: role._id,
-      email,
-      tenantName,
-    });
+      // 3. Create Admin User
+      const { user, plainPassword } = await createTenantAdminUser({
+        tenantId: tenant._id,
+        roleId: role._id,
+        email,
+        tenantName,
+      });
 
-    // 4. Send Email
-    await sendTenantWelcomeMail({
-      email,
-      userName: user.userName,
-      password: plainPassword,
-    });
+      // 4. Send Email
+      await sendTenantWelcomeMail({
+        email,
+        userName: user.userName,
+        password: plainPassword,
+      });
 
-    return res.status(201).json({
-      message: "Tenant created & email sent",
-      tenantId: tenant._id,
-    });
+      return res.status(201).json({
+        message: "Tenant created & email sent",
+        tenantId: tenant._id,
+      });
+    }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

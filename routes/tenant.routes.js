@@ -16,7 +16,8 @@ router.delete("/:id", DeleteTenantController);
 
 
 // subscription management routes
-router.put(":/id", activateTenant);     
-router.put(":/id", cancelTenant);
+router.put("/:id/activate", activateTenant);
+router.put("/:id/cancel", cancelTenant);
+
 
 export default router;

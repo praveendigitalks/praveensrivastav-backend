@@ -7,10 +7,10 @@ import {MODULES} from "./../constants/module.js";
 import {ACTIONS} from "./../constants/permission.js";
 router.use(protect);
 
-router.post("/",checkPermission(MODULES.RRESUME,ACTIONS.CREATE), createResumeController);
-router.get("/",checkPermission(MODULES.RRESUME,ACTIONS.READ), getResumeController);
-router.get("/:id",checkPermission(MODULES.RRESUME,ACTIONS.READ), getResumeByidController);
-router.put("/:id",checkPermission(MODULES.RRESUME,ACTIONS.UPDATE), updateResumeController);
-router.delete("/:id",checkPermission(MODULES.RRESUME,ACTIONS.DELETE), deleteResumeController);
+router.post("/",checkPermission(MODULES.RESUME,ACTIONS.CREATE), createResumeController);
+router.get("/",checkPermission(MODULES.RESUME,ACTIONS.READ), getResumeController);
+router.get("/:id",checkPermission(MODULES.RESUME,ACTIONS.READ), getResumeByidController);
+router.put("/:id",checkPermission(MODULES.RESUME,ACTIONS.UPDATE), updateResumeController);
+router.delete("/:id",checkPermission(MODULES.RESUME,ACTIONS.DELETE), deleteResumeController);
 
 export default router;

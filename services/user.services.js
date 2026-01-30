@@ -15,12 +15,19 @@ export const getUser = async (tenantId) => {
   return User.find({ tenantId: tenantId }) // ✅ { tenantId: "6979..." }
     .populate({
       path: "role",
-      populate: { path: "permissions" },
+      populate: {
+        path: "permissions",
+      },
     });
 };
 
 export const getUserbyId = async (tenantId, id) => {
-  return User.findById({ id, tenantId }).populate("role role.permission");
+  return User.findById({ id, tenantId }) .populate({
+      path: "role",
+      populate: {
+        path: "permissions",
+      },
+    });;
 };
 
 export const updateUser = async (tenantId, id, data) => {

@@ -10,7 +10,8 @@ import {
 
 export const CreateUserController = async (req, res) => {
   try {
-    const users = await createUser(req.body);
+    const tenantId = req.user.tenantId
+    const users = await createUser(tenantId,req.body);
     return res.status(201).json(users);
   } catch (error) { 
     return res.status(500).json({ error: error.message });
@@ -27,7 +28,6 @@ export const GetUserController = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 
 export const GetUserControllerByid = async (req, res) => {
@@ -62,7 +62,8 @@ export const deleteUserController = async (req, res) => {
 
 export const getLoggedUserDevicesController = async (req, res) => {
   try {
-    const userdevices = await getLoggeduserdevcies(req.params.id);
+    const tenantId = req.user.tenantId;
+    const userdevices = await getLoggeduserdevcies(req.params.id,tenantId);
     return res.status(200).json(userdevices);
   } catch (error) {
     // console.log("🚀 ~ getLoggedUserDevicesController ~ error:", error)

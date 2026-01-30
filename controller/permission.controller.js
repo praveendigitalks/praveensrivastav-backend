@@ -9,7 +9,8 @@ import {
 export const createPermissionController = async (req, res) => {
   try {
     // console.log("controller called");
-    const permissions = await createPermission(req.body);
+    const tenantId = req.user.tenantId;
+    const permissions = await createPermission(tenantId,req.body);
     return res.status(201).json(permissions);
   } catch (error) {
     console.error(error);
@@ -19,7 +20,8 @@ export const createPermissionController = async (req, res) => {
 
 export const getPermissionController = async (req, res) => {
   try {
-    const permissions = await getPermission();
+    const tenantId = req.user.tenantId;
+    const permissions = await getPermission(tenantId);
     return res.status(200).json(permissions);
   } catch (error) {
     return res.staus(500).json({ error: message.error });
@@ -27,7 +29,8 @@ export const getPermissionController = async (req, res) => {
 };
 export const getPermissionbyIdController = async (req, res) => {
   try {
-    const permissions = await getPermissionByid(req.params.id);
+    const tenantId = req.user.tenantId;
+    const permissions = await getPermissionByid(req.params.id,tenantId);
     return res.status(200).json(permissions);
   } catch (error) {
     return res.staus(500).json({ error: message.error });
@@ -35,7 +38,8 @@ export const getPermissionbyIdController = async (req, res) => {
 };
 export const updatePermissionController = async (req, res) => {
   try {
-    const permissions = await updatePermission(req.params.id, req.body);
+    const tenantId = req.user.tenantId;
+    const permissions = await updatePermission(req.params.id,tenantId, req.body);
     return res.status(200).json(permissions);
   } catch (error) {
     return res.staus(500).json({ error: message.error });
@@ -43,7 +47,8 @@ export const updatePermissionController = async (req, res) => {
 };
 export const deletePermissionController = async (req, res) => {
   try {
-    const permissions = await deletePermission(req.params.id);
+    const tenantId = req.user.tenantId;
+    const permissions = await deletePermission(req.params.id,tenantId);
     return res.status(200).json(permissions);
   } catch (error) {
     return res.staus(500).json({ error: message.error });

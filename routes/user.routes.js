@@ -2,10 +2,15 @@ import express from "express";
 const router = express.Router();
 import { CreateUserController, GetUserController,GetUserControllerByid, updateUserController,deleteUserController, getLoggedUserDevicesController } from "../controller/user.controller.js";
 import { protect } from "../midleware/auth.middleware.js";
+import { checkPermission } from "../midleware/permission.middleware.js";
+import { MODULES } from "../constants/module.js";
+import { ACTIONS } from "../constants/permission.js";
 router.use(protect)
 
-router.post("/", CreateUserController);
-router.get("/", GetUserController );
+router.post("/",checkPermission(MODULES.USER, ACTIONS.CREATE) ,CreateUserController);
+router.get("/",checkPermission(MODULES.USER, ACTIONS.READ), GetUserController );
 router.get("/logdevices/:id", getLoggedUserDevicesController);
-
+router.get("/:id",checkPermission(MODULES.USER, ACTIONS.READ),GetUserControllerByid);
+router.put("/:id",checkPermission(MODULES.USER, ACTIONS.UPDATE), updateUserController);
+router.delete("/:id",checkPermission(MODULES.USER, ACTIONS.DELETE), deleteUserController)
 export default router;

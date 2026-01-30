@@ -9,10 +9,10 @@ import { uploadAboutImage } from "../midleware/upload.middleware.js";
 router.use(protect);
 
 
-router.get("/", getAboutController);
-router.get("/:id", getAboutControllerbyId);
-router.post("/",uploadAboutImage.single("image"),createAboutController);
-router.put("/:id",uploadAboutImage.single("image"), updateAboutController);
-router.delete("/:id", deleteAboutController);
+router.get("/",checkPermission(MODULES.ABOUT, ACTIONS.READ), getAboutController);
+router.get("/:id",checkPermission(MODULES.ABOUT, ACTIONS.READ), getAboutControllerbyId);
+router.post("/",checkPermission(MODULES.ABOUT, ACTIONS.CREATE),uploadAboutImage.single("image"),createAboutController);
+router.put("/:id",checkPermission(MODULES.ABOUT, ACTIONS.UPDATE),uploadAboutImage.single("image"), updateAboutController);
+router.delete("/:id",checkPermission(MODULES.ABOUT, ACTIONS.DELETE), deleteAboutController);
 
 export default router;

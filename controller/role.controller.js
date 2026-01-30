@@ -8,7 +8,8 @@ import {
 
 export const createRoleController = async (req, res) => {
   try {
-    const roles = await createRole(req.body);
+    const tenantId = req.user.tenantId;
+    const roles = await createRole(tenantId, req.body);
     return res.status(201).json(roles);
   } catch (error) {
     console.log("🚀 ~ createRoleController ~ error:", error);
@@ -16,11 +17,39 @@ export const createRoleController = async (req, res) => {
   }
 };
 
-export const getRoleController = async(req, res) => {
-    try{
-        const roles = await getRole();
-        return res.status(200).json(roles);
-    }catch(error){
-        return res.status(500).json({error : error.message})
-    }
-}
+export const getRoleController = async (req, res) => {
+  try {
+    const tenantId = req.user.tenantId;
+    const roles = await getRole(tenantId);
+    return res.status(200).json(roles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+export const getRolebyIdController = async (req, res) => {
+  try {
+    const tenantId = req.user.tenantId;
+    const roles = await getRoleById(req.params.id,tenantId);
+    return res.status(200).json(roles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+export const updateRoleController = async (req, res) => {
+  try {
+    const tenantId = req.user.tenantId;
+    const roles = await updateRole(req.params.id,tenantId,req.body);
+    return res.status(200).json(roles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+export const deleteRoleController = async (req, res) => {
+  try {
+    const tenantId = req.user.tenantId;
+    const roles = await deleteRole(req.params.id,tenantId);
+    return res.status(200).json(roles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};

@@ -13,6 +13,8 @@ import authUser from "./auth.routes.js";
 // ------------------ Modules & Seections Routes Import ---------------------------------
 import aboutRouter from "./about.routes.js";
 import resumeRouter from "./resume.routes.js";
+import portfolioRouter from "./portfolio.routes.js";
+import conatctRouter from "./contact.routes.js";
 
 // ------------------ Authentication Routes Used ------------------------------------
 router.use("/permission", permissionRouter);
@@ -24,6 +26,8 @@ router.use("/login", authUser);
 // ------------------ Modules & Seections Routes Used ---------------------------------
 router.use("/about", aboutRouter);
 router.use("/resume", resumeRouter);
+router.use("/portfolio", portfolioRouter);
+router.use("/contact", conatctRouter);
 
 
 export default router;

@@ -27,11 +27,11 @@ export const createAboutController = async (req, res) => {
 export const updateAboutController = async (req, res) => {
   try {
     const tenantId = req.user.tenantId;
-    console.log('🔍 Update Request:');
-    console.log('- req.params.id:', req.params.id);
-    console.log('- tenantId:', tenantId);
-    console.log('- req.body:', req.body);
-    console.log('- req.file:', req.file);
+    // console.log('🔍 Update Request:');
+    // console.log('- req.params.id:', req.params.id);
+    // console.log('- tenantId:', tenantId);
+    // console.log('- req.body:', req.body);
+    // console.log('- req.file:', req.file);
     
     const data = {
       ...req.body,

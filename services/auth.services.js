@@ -84,7 +84,7 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
   populate: {
     path: "permissions",
   },
-});
+}).populate("tenantId");
 
 
   if (!user) throw new Error("User not found");

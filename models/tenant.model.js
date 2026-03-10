@@ -8,6 +8,8 @@ const tenantSchema = new mongoose.Schema(
     },
 
     tenantPhoneNo: String,
+    heroImage: String,
+    bio: String,
 
     subscription: {
       status: {

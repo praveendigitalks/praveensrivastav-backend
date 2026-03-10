@@ -2,7 +2,7 @@
 import Tenant from "./../models/tenant.model.js"
 export const CreateTenant = async (data) => {
   const trialExpiresAt = new Date(
-    Date.now() + 3 * 24 * 60 * 60 * 1000 // 3 days
+    Date.now() + 3 * 24 * 60 * 60 * 1000 // 7 days
   );
 
   return await Tenant.create({

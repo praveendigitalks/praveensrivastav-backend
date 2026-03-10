@@ -7,12 +7,14 @@ import { createTenantAdminUser } from "../services/user.services.js";
 
 export const CreateTenantController = async (req, res) => {
   try {
-    const { tenantName, tenantPhoneNo, email } = req.body;
+    const { tenantName, tenantPhoneNo, email, bio, heroImage } = req.body;
 
     // 1. Create Tenant
     const tenant = await Tenant.create({
       tenantName,
       tenantPhoneNo,
+      bio,
+      heroImage: req.file ? `/upload/tenant/${req.file.filename}` : null,
       subscription: {
         status: "TRIAL",
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -35,6 +37,8 @@ export const CreateTenantController = async (req, res) => {
         roleId: role._id,
         email,
         tenantName,
+        bio,
+        heroImage
       });
 
       // 4. Send Email

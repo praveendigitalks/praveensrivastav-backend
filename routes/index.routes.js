@@ -15,6 +15,7 @@ import aboutRouter from "./about.routes.js";
 import resumeRouter from "./resume.routes.js";
 import portfolioRouter from "./portfolio.routes.js";
 import conatctRouter from "./contact.routes.js";
+import subscriptionPlanRoutes from './subscriptionPlan.routes.js';
 
 // ------------------ Authentication Routes Used ------------------------------------
 router.use("/permission", permissionRouter);
@@ -28,6 +29,8 @@ router.use("/about", aboutRouter);
 router.use("/resume", resumeRouter);
 router.use("/portfolio", portfolioRouter);
 router.use("/contact", conatctRouter);
+router.use('/subscription-plans', subscriptionPlanRoutes);
+
 
 
 export default router;

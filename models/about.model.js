@@ -75,7 +75,7 @@ const aboutSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Tenant",
   },
-});
+}, { timestamps: true },);
 
 aboutSchema.add({
   priorskills: [priorSkillSchema],

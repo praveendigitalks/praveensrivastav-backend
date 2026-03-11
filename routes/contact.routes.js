@@ -1,16 +1,46 @@
 import express from "express";
 const router = express.Router();
-import { createController, getController,getByIdController,updateController,deleteController } from "../controller/contact.controller.js";
-import {protect} from "../midleware/auth.middleware.js"
+import {
+  createController,
+  getController,
+  getByIdController,
+  updateController,
+  deleteController,
+} from "../controller/contact.controller.js";
+import { protect } from "../midleware/auth.middleware.js";
 router.use(protect);
-import {checkPermission} from "./../midleware/permission.middleware.js";
-import {MODULES} from "./../constants/module.js";
-import {ACTIONS} from "./../constants/permission.js";
+import { checkPermission } from "./../midleware/permission.middleware.js";
+import { MODULES } from "./../constants/module.js";
+import { ACTIONS } from "./../constants/permission.js";
+import multer from "multer";
 
-router.post("/",checkPermission(MODULES.CONTACT, ACTIONS.CREATE),createController);
-router.get("/",checkPermission(MODULES.CONTACT, ACTIONS.READ), getController);
-router.get("/:id",checkPermission(MODULES.CONTACT, ACTIONS.READ), getByIdController);
-router.put("/:id",checkPermission(MODULES.CONTACT, ACTIONS.UPDATE), updateController );
-router.delete("/:id",checkPermission(MODULES.CONTACT, ACTIONS.DELETE), deleteController);
+const upload = multer(); // memory storage, no files required
 
-export default router ;
+router.post(
+  "/",
+  upload.none(), // <‑ parses FormData (text fields)
+  checkPermission(MODULES.CONTACT, ACTIONS.CREATE),
+  createController,
+);
+// router.post("/",checkPermission(MODULES.CONTACT, ACTIONS.CREATE),createController);
+router.get("/", checkPermission(MODULES.CONTACT, ACTIONS.READ), getController);
+router.get(
+  "/:id",
+  checkPermission(MODULES.CONTACT, ACTIONS.READ),
+  getByIdController,
+);
+// router.put("/:id",checkPermission(MODULES.CONTACT, ACTIONS.UPDATE), updateController );
+router.put(
+  "/:id",
+  checkPermission(MODULES.CONTACT, ACTIONS.UPDATE),
+  upload.none(), // if you send FormData
+  updateController,
+);
+
+router.delete(
+  "/:id",
+  checkPermission(MODULES.CONTACT, ACTIONS.DELETE),
+  deleteController,
+);
+
+export default router;

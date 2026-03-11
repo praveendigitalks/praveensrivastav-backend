@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+
+// const socialprofileSchema = new mongoose.Schema({
+//   social_link: { type: String, trim: true },
+//   icon: { type: String, trim: true },
+//   iconType: {
+//     type: String,
+//     enum: ["fontawesome", "image"],
+//     default: "fontawesome",
+//   },
+// });
+
 const tenantSchema = new mongoose.Schema(
   {
     tenantName: {
@@ -21,7 +32,7 @@ const tenantSchema = new mongoose.Schema(
         type: Date, 
         required: true,
       },
-    },  
+    },    
     isActive: {
       type: Boolean,
       default: true,
@@ -30,5 +41,9 @@ const tenantSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+// tenantSchema.add({
+//   socialprofileSchema: [socialprofileSchema],
+// });
 
 export default mongoose.model("Tenant", tenantSchema);

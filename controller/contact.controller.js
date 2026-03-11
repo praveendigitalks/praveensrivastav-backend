@@ -27,10 +27,23 @@ export const getByIdController = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+// export const updateController = async (req, res) => {
+//   try {
+//     const tenantId = req.user.tenantId;
+//     const contact = await updateContact(req.params.id,tenantId, req.body);
+//     return res.status(200).json(contact);
+//   } catch (error) {
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
+
 export const updateController = async (req, res) => {
   try {
     const tenantId = req.user.tenantId;
-    const contact = await updateContact(req.params.id,tenantId, req.body);
+    const id = req.params.id;
+
+    const contact = await updateContact(id, tenantId, req.body);
+
     return res.status(200).json(contact);
   } catch (error) {
     return res.status(500).json({ error: error.message });

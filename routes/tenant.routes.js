@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { GetTenantByIdController, GetTenantController, UpdateTenantController, DeleteTenantController} from "../controller/tenant.controller.js";
+import { GetTenantByIdController, GetTenantController, UpdateTenantController, DeleteTenantController,ActivateTenantWithPlanController} from "../controller/tenant.controller.js";
 import { CreateTenantController } from "../controller/createTenant.controller.js";
 import { activateTenant, cancelTenant } from "../services/subscription.services.js";
 import { protect } from "../midleware/auth.middleware.js";
@@ -19,6 +19,7 @@ router.delete("/:id", DeleteTenantController);
 // subscription management routes
 router.put("/:id/activate", activateTenant);
 router.put("/:id/cancel", cancelTenant);
+router.post("/activate-tenant-plan", ActivateTenantWithPlanController);
 
 
 export default router;

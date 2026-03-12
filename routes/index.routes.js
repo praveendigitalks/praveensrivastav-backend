@@ -1,6 +1,46 @@
+// import express from "express";
+
+// const router =express.Router();
+// // ------------------ Authentication Routes Import ------------------------------------
+// import permissionRouter from "./permission.routes.js";
+// import roleRouter from "./role.routes.js";
+// import userRouter from "./user.routes.js";
+// import tenantRouter from "./tenant.routes.js";
+// import authUser from "./auth.routes.js";
+
+
+
+// // ------------------ Modules & Seections Routes Import ---------------------------------
+// import aboutRouter from "./about.routes.js";
+// import resumeRouter from "./resume.routes.js";
+// import portfolioRouter from "./portfolio.routes.js";
+// import conatctRouter from "./contact.routes.js";
+// import subscriptionPlanRoutes from './subscriptionPlan.routes.js';
+// import paymentRoutes from './payment.route.js'
+// // ------------------ Authentication Routes Used ------------------------------------
+// router.use("/permission", permissionRouter);
+// router.use("/role",roleRouter );
+// router.use("/user", userRouter);
+// router.use("/tenant", tenantRouter);
+// router.use("/login", authUser);
+
+// // ------------------ Modules & Seections Routes Used ---------------------------------
+// router.use("/about", aboutRouter);
+// router.use("/resume", resumeRouter);
+// router.use("/portfolio", portfolioRouter);
+// router.use("/contact", conatctRouter);
+// router.use('/subscription-plans', subscriptionPlanRoutes);
+// router.use(('/stripe', paymentRoutes));
+
+
+
+// export default router;
+
+// routes/index.routes.js
 import express from "express";
 
-const router =express.Router();
+const router = express.Router();
+
 // ------------------ Authentication Routes Import ------------------------------------
 import permissionRouter from "./permission.routes.js";
 import roleRouter from "./role.routes.js";
@@ -8,29 +48,31 @@ import userRouter from "./user.routes.js";
 import tenantRouter from "./tenant.routes.js";
 import authUser from "./auth.routes.js";
 
-
-
-// ------------------ Modules & Seections Routes Import ---------------------------------
+// ------------------ Modules & Sections Routes Import ---------------------------------
 import aboutRouter from "./about.routes.js";
 import resumeRouter from "./resume.routes.js";
 import portfolioRouter from "./portfolio.routes.js";
 import conatctRouter from "./contact.routes.js";
-import subscriptionPlanRoutes from './subscriptionPlan.routes.js';
+import subscriptionPlanRoutes from "./subscriptionPlan.routes.js";
+import stripeRoutes from "./payment.route.js";   // <-- use Stripe router
 
 // ------------------ Authentication Routes Used ------------------------------------
 router.use("/permission", permissionRouter);
-router.use("/role",roleRouter );
+router.use("/role", roleRouter);
 router.use("/user", userRouter);
 router.use("/tenant", tenantRouter);
 router.use("/login", authUser);
 
-// ------------------ Modules & Seections Routes Used ---------------------------------
+// ------------------ Modules & Sections Routes Used ---------------------------------
 router.use("/about", aboutRouter);
 router.use("/resume", resumeRouter);
 router.use("/portfolio", portfolioRouter);
 router.use("/contact", conatctRouter);
-router.use('/subscription-plans', subscriptionPlanRoutes);
+router.use("/subscription-plans", subscriptionPlanRoutes);
 
-
+// Stripe: final URL = /sp/stripe/create-payment-intent
+router.use("/stripe", stripeRoutes);
 
 export default router;
+
+

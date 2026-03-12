@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 // const socialprofileSchema = new mongoose.Schema({
 //   social_link: { type: String, trim: true },
 //   icon: { type: String, trim: true },
@@ -29,15 +28,21 @@ const tenantSchema = new mongoose.Schema(
         default: "TRIAL",
       },
       expiresAt: {
-        type: Date, 
+        type: Date,
         required: true,
       },
-    },    
+      planId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SubscriptionPlan",
+      },
+      client_secret: {
+        type: String,
+      },
+    },
     isActive: {
       type: Boolean,
       default: true,
     },
-
   },
   { timestamps: true },
 );

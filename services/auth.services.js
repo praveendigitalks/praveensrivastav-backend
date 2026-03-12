@@ -78,16 +78,102 @@ import Tenant from "./../models/tenant.model.js";
 
 // new architectrure without SaaS based
 
-export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
- const user = await User.findOne({ userName }).populate({
-  path: "role",
-  populate: {
-    path: "permissions",
-  },
-}).populate("tenantId");
+// export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
+//  const user = await User.findOne({ userName }).populate({
+//   path: "role",
+//   populate: {
+//     path: "permissions",
+//   },
+// }).populate("tenantId");
 
+
+//   if (!user) throw new Error("User not found");
+
+//   const match = await comparePassword(password, user.password);
+//   if (!match) throw new Error("Invalid credentials");
+
+//   /* ---------------- SUPER ADMIN BYPASS ---------------- */
+//   if (!user.isSuperAdmin) {
+//     if (!user.tenantId) {
+//       throw new Error("Tenant not assigned");
+//     }
+
+//     const tenant = await Tenant.findById(user.tenantId);
+//     console.log("🚀 ~ Login ~ tenant:", tenant);
+
+//     if (!tenant || !tenant.isActive) {
+//       throw new Error("Tenant is disabled");
+//     }
+//     console.log("tenant status", tenant.subscription.status);
+
+//     if (
+//       // tenant.subscription?.status !== "ACTIVE" ||
+//       tenant.subscription?.status !== "TRIAL"
+//     ) {
+//       throw new Error("Subscription inactive");
+//     }
+//   }
+
+//   /* ---------------- DEVICE MANAGEMENT ---------------- */
+//   const existingDevice = user.devices.find((d) => d.deviceId === deviceId);
+
+//   const token = generateJsonWebToken(user);
+
+//   if (!existingDevice) {
+//     if (!user.isSuperAdmin && user.devices.length >= 3) {
+//       throw new Error("Maximum 3 devices allowed");
+//     }
+
+//     user.devices.push({
+//       deviceId,
+//       deviceName: deviceInfo.deviceName,
+//       browser: deviceInfo.browser,
+//       os: deviceInfo.os,
+//       deviceType: deviceInfo.deviceType,
+//       userAgent: deviceInfo.userAgent,
+//       token,
+//       lastLogin: new Date(),
+//     });
+//   } else {
+//     existingDevice.token = token;
+//     existingDevice.lastLogin = new Date();
+//   }
+
+//   await user.save();
+//   console.log("LOGIN USER ID:", user._id);
+//   console.log("LOGIN USERNAME:", user.userName);
+//   console.log("LOGIN ISSUPERADMIN:", user.isSuperAdmin);
+
+//   return {
+//     token,
+//     user: {
+//       _id: user._id,
+//       userName: user.userName,
+//       isSuperAdmin: user.isSuperAdmin,
+//       tenantId: user.tenantId,
+//       role: user.role,
+//     },
+//     devices: user.isSuperAdmin ? [] : user.devices,
+//   };
+// };
+export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
+  const user = await User.findOne({ userName })
+    .populate({
+      path: "role",
+      populate: { path: "permissions" },
+    })
+    .populate("tenantId")
 
   if (!user) throw new Error("User not found");
+
+  // now populate subscription.planId on Tenant
+  await user.populate({
+    path: "tenantId",
+    populate: {
+      path: "subscription.planId",
+      model: "SubscriptionPlan",
+    },
+  });
 
   const match = await comparePassword(password, user.password);
   if (!match) throw new Error("Invalid credentials");
@@ -98,17 +184,27 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
       throw new Error("Tenant not assigned");
     }
 
+    // Yahan tenantId ObjectId hi hai, populate bhi hua
     const tenant = await Tenant.findById(user.tenantId);
-    console.log("🚀 ~ Login ~ tenant:", tenant);
+    console.log("full tenant data",user.tenantId)
+    console.log("Login tenant:", {
+      id: tenant?._id,
+      isActive: tenant?.isActive,
+      status: tenant?.subscription?.status,
+    });
 
-    if (!tenant || !tenant.isActive) {
+    if (!tenant) {
+      throw new Error("Tenant not found");
+    }
+
+    if (!tenant.isActive) {
       throw new Error("Tenant is disabled");
     }
-    console.log("tenant status", tenant.subscription.status);
 
+    // Yahan TRIAL + ACTIVE dono allow karo
     if (
-      // tenant.subscription?.status !== "ACTIVE" ||
-      tenant.subscription?.status !== "TRIAL"
+      tenant.subscription?.status !== "TRIAL" &&
+      tenant.subscription?.status !== "ACTIVE"
     ) {
       throw new Error("Subscription inactive");
     }
@@ -116,7 +212,6 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
 
   /* ---------------- DEVICE MANAGEMENT ---------------- */
   const existingDevice = user.devices.find((d) => d.deviceId === deviceId);
-
   const token = generateJsonWebToken(user);
 
   if (!existingDevice) {
@@ -140,9 +235,6 @@ export const Login = async ({ userName, password, deviceId, deviceInfo }) => {
   }
 
   await user.save();
-  console.log("LOGIN USER ID:", user._id);
-  console.log("LOGIN USERNAME:", user.userName);
-  console.log("LOGIN ISSUPERADMIN:", user.isSuperAdmin);
 
   return {
     token,

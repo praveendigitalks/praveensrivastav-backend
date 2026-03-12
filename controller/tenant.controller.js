@@ -4,6 +4,7 @@ import {
   GetTenantById,
   UpdateTenant,
   DeleteTenant,
+  activateTenantWithPlan 
 } from "../services/tenant.services.js";
 
 export const CreateTenantController = async (req, res) => {
@@ -47,5 +48,29 @@ export const DeleteTenantController = async (req, res) => {
     return res.status(201).json(tenants);
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+
+export const ActivateTenantWithPlanController = async (req, res) => {
+  try {
+    const { tenantId, planId, paymentIntentId } = req.body;
+
+    const tenant = await activateTenantWithPlan({
+      tenantId,
+      planId,
+      paymentIntentId
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Tenant activated successfully',
+      data: tenant
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };

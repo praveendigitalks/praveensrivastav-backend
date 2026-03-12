@@ -1,3 +1,51 @@
+// import express from "express";
+// import dotenv from "dotenv";
+// import cors from "cors";
+// import path from "path";
+// import connectDB from "./connection/connect.js";
+// import index from "./routes/index.routes.js";
+
+// dotenv.config();
+
+// const app = express();
+
+// /* ---------- BODY PARSER ---------- */
+// app.use(express.json());
+// /* ---------- CORS ---------- */
+// app.use(
+//   cors({
+//     origin:"*",
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization", "x-device-id"],
+//   })
+// );
+// // Replace your cors() block with this
+// const allowedOrigins = [
+//   "http://localhost:4200",
+//   "https://praveensrivastav.vercel.app"
+// ];
+
+// app.use("/upload", express.static("upload"));
+// app.use("/upload", express.static(path.join(process.cwd(), "upload")));
+
+
+// /* ---------- DB ---------- */
+// connectDB();
+
+
+
+// /* ---------- ROUTES ---------- */
+// app.use("/sp", index);
+
+// /* ---------- SERVER ---------- */
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server running on port ${PORT}`);
+// });
+
+// export default app;
+// app.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -9,36 +57,40 @@ dotenv.config();
 
 const app = express();
 
-/* ---------- BODY PARSER ---------- */
+// ---------- BODY PARSER ----------
 app.use(express.json());
-/* ---------- CORS ---------- */
-app.use(
-  cors({
-    origin:"*",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "x-device-id"],
-  })
-);
-// Replace your cors() block with this
+
+// ---------- CORS ----------
 const allowedOrigins = [
   "http://localhost:4200",
   "https://praveensrivastav.vercel.app"
 ];
 
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-device-id"]
+  })
+);
+
+// static
 app.use("/upload", express.static("upload"));
 app.use("/upload", express.static(path.join(process.cwd(), "upload")));
 
-
-/* ---------- DB ---------- */
+// DB
 connectDB();
 
-
-
-/* ---------- ROUTES ---------- */
+// ROUTES – all API routes start with /sp
 app.use("/sp", index);
 
-/* ---------- SERVER ---------- */
+// SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

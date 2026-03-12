@@ -5,7 +5,6 @@ import Stripe from 'stripe';
 const router = express.Router();
 
 
-
 // 1) CREATE PaymentIntent  -> POST /sp/stripe/payment-intents
 router.post('/create-payment-intent', async (req, res) => {
   try {

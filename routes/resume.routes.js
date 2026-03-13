@@ -12,5 +12,10 @@ router.get("/",checkPermission(MODULES.RESUME,ACTIONS.READ), getResumeController
 router.get("/:id",checkPermission(MODULES.RESUME,ACTIONS.READ), getResumeByidController);
 router.put("/:id",checkPermission(MODULES.RESUME,ACTIONS.UPDATE), updateResumeController);
 router.delete("/:id",checkPermission(MODULES.RESUME,ACTIONS.DELETE), deleteResumeController);
+// router.post("/", createResumeController);
+// router.get("/", getResumeController);
+// router.get("/:id", getResumeByidController);
+// router.put("/:id", updateResumeController);
+// router.delete("/:id", deleteResumeController);
 
 export default router;

@@ -1,16 +1,31 @@
 import { createResume, getResume, getResumeByid, updateResume, deleteResume } from "../services/resume.services.js";
 
+// export const createResumeController = async (req, res) => {
+
+//     try {
+
+//         console.log("request =>" ,req.body)
+//         const tenantId = req.user.tenantId;
+//         const resume = await createResume(tenantId, req.data);
+//         return res.status(201).json(resume);
+//     } catch (error) {
+//         return res.status(500).json({ error: error.message })
+//     }
+
+// }
+
 export const createResumeController = async (req, res) => {
+  try {
+    console.log("request =>", req.body);
+    const tenantId = req.user.tenantId;
 
-    try {
-        const tenantId = req.user.tenantId;
-        const resume = await createResume(tenantId, req.data);
-        return res.status(201).json(resume);
-    } catch (error) {
-        return res.status(500).json({ error: error.message })
-    }
+    const resume = await createResume(tenantId, req.body); // ✅ use body
+    return res.status(201).json(resume);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
-}
 export const getResumeController = async (req, res) => {
 
     try {

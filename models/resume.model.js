@@ -61,7 +61,7 @@ const resumeSchema = new mongoose.Schema({
     type: [educationSchema],
     default: [],
   },
-  profession: {
+  professionSchema: {
     type: [professionSchema],
     default: [],
   },
@@ -72,3 +72,44 @@ const resumeSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Resume", resumeSchema);
+// import mongoose from "mongoose";
+
+// const educationSchema = new mongoose.Schema({
+//   degreeName: { type: String },
+//   start_year: { type: Date },
+//   end_year: { type: Date },
+//   institueName: { type: String },
+//   percentorcgpa: { type: String },
+// });
+
+// const professionSchema = new mongoose.Schema({
+//   positionName: { type: String },
+//   start_year: { type: Date },
+//   end_year: { type: Date },
+//   experience: { type: String },
+//   professiondescription: [{ type: String }],
+// });
+
+// const resumeSchema = new mongoose.Schema({
+//   profileName: { type: String },
+//   carrerOverview: { type: String },
+//   phoneNumber: { type: String },
+//   address: { type: String },
+//   email: { type: String },
+
+//   // note: no `type:` wrapper, just array of schema
+//   education: {
+//     type: [educationSchema],
+//     default: [],
+//   },
+//   professionSchema: {
+//     type: [professionSchema],
+//     default: [],
+//   },
+//   tenantId: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Tenant",
+//   },
+// });
+
+// export default mongoose.model("Resume", resumeSchema);

@@ -63,7 +63,8 @@ app.use(express.json());
 // ---------- CORS ----------
 const allowedOrigins = [
   "http://localhost:4200",
-  "https://praveensrivastav.vercel.app"
+  "https://praveensrivastav.vercel.app",
+  "http://13.233.11.48"
 ];
 
 app.use(
